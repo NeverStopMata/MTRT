@@ -1,14 +1,17 @@
 #pragma once
 #include "ray.h"
- 
-struct  hit_record
+#include "aabb.h"
+class Material;
+struct  HitRecord
 {
 	float t;
-	vec3 pos;
-	vec3 normal;
+	Vec3 pos;
+	Vec3 normal;
+	Material* mat_ptr;
 };
 
-class hitable {
+class Hitable {
 public:
-	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
+	virtual bool Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const = 0;
+	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const = 0;
 };

@@ -1,36 +1,46 @@
 #pragma once
 #include "hitable.h"
 
-class sphere : public hitable {
+class Sphere : public Hitable {
 public:
-	sphere() {}
-	sphere(vec3 cen, float r) :center(cen), radius(r) {};
-	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
-	vec3 center;
-	float radius;
+	Sphere() {}
+	Sphere(Vec3 cen, float r,Material* mat) :center_(cen), radius_(r), mat_ptr_(mat){};
+	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
+	virtual bool GetBoundingBox(float t0, float t1, Aabb & box) const;
+	Vec3 center_;
+	float radius_;
+	Material* mat_ptr_;
 };
 
-bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
-	vec3 VecCntr2Orgn = r.origin() - center;
-	float a = dot(r.direction(), r.direction());
-	float b = dot(VecCntr2Orgn, r.direction());
-	float c = dot(VecCntr2Orgn, VecCntr2Orgn) - radius * radius;
-	float Discriminant = b * b - a*c;
-	if (Discriminant > 0) {
+bool Sphere::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const {
+	Vec3 vec_centr_orign = r.GetOrigin() - center_;
+	float a = Dot(r.GetDirection(), r.GetDirection());
+	float b = Dot(vec_centr_orign, r.GetDirection());
+	float c = Dot(vec_centr_orign, vec_centr_orign) - radius_ * radius_;
+	float discriminant = b * b - a*c;
+	if (discriminant > 0) {
 		float temp = (-b - sqrt(b*b - a * c)) / a;
 		if (temp > t_min && temp < t_max) {
 			rec.t = temp;
-			rec.pos = r.point_at_parameter(rec.t);
-			rec.normal = (rec.pos - center) / radius;
+			rec.pos = r.GetPointAtParameter(rec.t);
+			rec.normal = (rec.pos - center_) / radius_;
+			rec.mat_ptr = mat_ptr_;
 			return true;
 		}
 		temp = (-b + sqrt(b*b - a * c)) / a;
 		if (temp > t_min && temp < t_max) {
 			rec.t = temp;
-			rec.pos = r.point_at_parameter(rec.t);
-			rec.normal = (rec.pos - center) / radius;
+			rec.pos = r.GetPointAtParameter(rec.t);
+			rec.normal = (rec.pos - center_) / radius_;
+			rec.mat_ptr = mat_ptr_;
 			return true;
 		}
 	}
 	return false;
+}
+
+bool Sphere::GetBoundingBox(float t0, float t1, Aabb& box) const
+{
+	box = Aabb(center_ - Vec3(radius_, radius_, radius_), center_ + Vec3(radius_, radius_, radius_));
+	return true;
 }
