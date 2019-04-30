@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #include "vec3.h"
 #include "ray.h"
 #include <algorithm>
@@ -27,49 +27,14 @@ public:
 	Vec3 min_, max_;
 };
 
-Aabb MergeTwoBoundingBoxes(Aabb& box0, Aabb& box1) {
+Aabb MergeTwoBoundingBoxes(const Aabb& box0, const Aabb& box1) {
 	Vec3 new_min(ffmin(box0.GetMinCorner().x(), box1.GetMinCorner().x()),
 			   ffmin(box0.GetMinCorner().y(), box1.GetMinCorner().y()),
 			   ffmin(box0.GetMinCorner().z(), box1.GetMinCorner().z()));
 
-	Vec3 new_max(ffmax(box0.GetMinCorner().x(), box1.GetMinCorner().x()),
-				 ffmax(box0.GetMinCorner().y(), box1.GetMinCorner().y()),
-				 ffmax(box0.GetMinCorner().z(), box1.GetMinCorner().z()));
+	Vec3 new_max(ffmax(box0.GetMaxCorner().x(), box1.GetMaxCorner().x()),
+				 ffmax(box0.GetMaxCorner().y(), box1.GetMaxCorner().y()),
+				 ffmax(box0.GetMaxCorner().z(), box1.GetMaxCorner().z()));
 	return Aabb(new_min, new_max);
 }
 
-int box_x_compare(const void* a, const void* b) {
-	Aabb box_left, box_right;
-	Hitable* hitable_a = *((Hitable**)a);
-	Hitable* hitable_b = *((Hitable**)b);
-	if(!hitable_a->GetBoundingBox(0,0,box_left)|| !hitable_b->GetBoundingBox(0, 0, box_right))
-		std::cerr << "no bounding box in bvh_node constructor" << std::endl;
-	if (box_left.GetMinCorner().x() - box_right.GetMinCorner().x() < 0.0)
-		return -1;
-	else
-		return 1;
-}
-
-int box_y_compare(const void* a, const void* b) {
-	Aabb box_left, box_right;
-	Hitable *hitable_a = *(Hitable**)a;
-	Hitable *hitable_b = *(Hitable**)b;
-	if (!hitable_a->GetBoundingBox(0, 0, box_left) || !hitable_b->GetBoundingBox(0, 0, box_right))
-		std::cerr << "no bounding box in bvh_node constructor" << std::endl;
-	if (box_left.GetMinCorner().y() - box_right.GetMinCorner().y() < 0.0)
-		return -1;
-	else
-		return 1;
-}
-
-int box_z_compare(const void* a, const void* b) {
-	Aabb box_left, box_right;
-	Hitable *hitable_a = *(Hitable**)a;
-	Hitable *hitable_b = *(Hitable**)b;
-	if (!hitable_a->GetBoundingBox(0, 0, box_left) || !hitable_b->GetBoundingBox(0, 0, box_right))
-		std::cerr << "no bounding box in bvh_node constructor" << std::endl;
-	if (box_left.GetMinCorner().z() - box_right.GetMinCorner().z() < 0.0)
-		return -1;
-	else
-		return 1;
-}

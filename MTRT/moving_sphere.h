@@ -6,6 +6,7 @@ public:
 	MovingSphere(Vec3 cen0,Vec3 cen1,float t0,float t1, float r, Material* mat):
 		center0_(cen0), center1_(cen1), time0_(t0), time1_(t1), radius_(r), mat_ptr_(mat) {};
 	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
+	virtual bool GetBoundingBox(float t0, float t1, Aabb & box) const;
 	Vec3 GetCenter(float time) const;
 
 	Vec3 center0_,center1_;
@@ -42,4 +43,14 @@ bool MovingSphere::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) c
 		}
 	}
 	return false;
+}
+
+bool MovingSphere::GetBoundingBox(float t0, float t1, Aabb& box) const
+{
+	auto cen0 = GetCenter(t0);
+	auto cen1 = GetCenter(t1);
+	auto box1 = Aabb(cen0 - Vec3(radius_, radius_, radius_), cen0 + Vec3(radius_, radius_, radius_));
+	auto box2 = Aabb(cen1 - Vec3(radius_, radius_, radius_), cen1 + Vec3(radius_, radius_, radius_));
+	box = MergeTwoBoundingBoxes(box1, box2);
+	return true;
 }

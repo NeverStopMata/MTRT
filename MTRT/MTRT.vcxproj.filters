@@ -60,6 +60,51 @@
     <ClInclude Include="bvh_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="scene_creator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="const_texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="checker_texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="perlin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="noise_texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="image_texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sky_box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sky_box_mat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle_mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="diffuse_light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xy_rect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

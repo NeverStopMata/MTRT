@@ -2,6 +2,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include<iostream>
+constexpr auto M_PI = 3.14159265358979323846f;
+constexpr auto FLOAT_EPSILON = 0.000001f;
+
+
 class Vec3 {
 public:
 	Vec3() {}
@@ -15,8 +19,15 @@ public:
 
 	inline const Vec3& operator+()const { return *this; };
 	inline Vec3 operator-()const { return Vec3(-e[0], -e[1], -e[2]); };
-	inline float operator[](int i) const { return e[i]; };
+	inline float operator[](int i) const { 
+		return e[i]; };
 	inline float& operator[](int i) { return e[i]; };
+
+
+
+	bool operator==(const Vec3& other) const {
+		return e[0] == other.e[0] && e[1] == other.e[1] && e[2] == other.e[2];
+	}
 
 	inline Vec3& operator+=(const Vec3 &v2) {
 		e[0] += v2[0];
@@ -71,6 +82,17 @@ public:
 	float e[3];
 };
 
+namespace std {
+	template<> struct hash<Vec3> {
+		size_t operator()(Vec3 const& vec) const {
+			return ((hash<float>()(vec.e[0]) ^
+				(hash<float>()(vec.e[1]) << 1)) >> 1) ^
+				(hash<float>()(vec.e[2]));
+		}
+	};
+}
+
+
 inline std::istream& operator>>(std::istream &is, Vec3 &t) {
 	is >> t.e[0] >> t.e[1] >> t.e[2];
 	return is;
@@ -117,4 +139,15 @@ inline Vec3 Normalize(const Vec3 &v) {
 		v[0] * k,
 		v[1] * k,
 		v[2] * k);
+}
+
+inline float GetRandom01() {
+	return float((double)rand() / RAND_MAX);
+}
+
+void GetSphereUV(const Vec3& p, float& u, float& v) {
+	float phi = atan2(p.z(), p.x());
+	float theta = asin(p.y());
+	u = 1 - (phi + M_PI) / (2 * M_PI);
+	v = (theta + M_PI / 2) / M_PI;
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "ray.h"
-constexpr auto M_PI = 3.14159265358979323846f;
+
 class Camera {
 public:
 	Camera(Vec3 look_from,Vec3 look_at, Vec3 vec_up, float vertical_fov, float aspect, float aperture, float focus_dist, float t0, float t1) : origin_(look_from),time0_(t0),time1_(t1){

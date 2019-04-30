@@ -18,7 +18,7 @@ public:
 		}
 		else {
 			outward_normal = rec.normal;
-			ni_over_nt = 1.0 / ref_idx_;
+			ni_over_nt = 1.0f / ref_idx_;
 			cosine = -Dot(r_in.GetDirection(), rec.normal) / r_in.GetDirection().GetLength();
 		}
 		if (Refract(r_in.GetDirection(), outward_normal, ni_over_nt, refracted)) {
