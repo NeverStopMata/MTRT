@@ -113,7 +113,6 @@ public:
 	}
 	virtual bool Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const;
-	bool IsInTriangle(const Vec3& p, float& u, float& v)const;
 	Aabb bbx_;
 	Vertex v0_;
 	Vertex v1_;
@@ -126,16 +125,6 @@ public:
 	Material* mat_ptr_;
 };
 
-
-//bool Triangle::IsInTriangle(const Vec3& p, float& u, float& v)const {
-//	auto vec_p0pi = p - v0_.pos();
-//	u = (vec_p0pi[denominator_type_] * vec_p0p2_[(denominator_type_ + 1) % 3] - vec_p0pi[(denominator_type_ + 1) % 3] * vec_p0p2_[denominator_type_]) * denominator_;
-//	v = (vec_p0pi[(denominator_type_ + 1) % 3] * vec_p0p1_[denominator_type_] - vec_p0pi[denominator_type_] * vec_p0p1_[(denominator_type_ + 1) % 3]) * denominator_;
-//	if (u >= 0 && u < 1 && v >= 0 && v < 1)
-//		return true;
-//	else
-//		return false;
-//}
 bool Triangle::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec)const {
 	Vec3 p_vec = Cross(r.GetDirection(), vec_p0p2_);
 	float det = Dot(vec_p0p1_, p_vec);
@@ -154,7 +143,8 @@ bool Triangle::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec)const 
 	Vec3 vec_origin_v0 = v0_.pos() - r.GetOrigin();
 	float d = Dot(n, vec_origin_v0);
 	float t = d / Dot(n, r.GetDirection());
-	rec.t = t;
+	if (t > t_max || t < t_min)
+		return false;
 
 	std::vector<std::tuple<Vertex, float>> vertex_weight_arry(3);
 	vertex_weight_arry[0] = std::make_tuple(v0_, 1 - u - v);

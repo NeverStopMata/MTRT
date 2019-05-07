@@ -2,8 +2,13 @@
 #include "hitable.h"
 class Material {
 public:
-	virtual bool Scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenunation, Ray& scattered) const = 0;
-	virtual Vec3 Emitted(float u, float v, const Vec3& p) const {
+	virtual bool Scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenunation, Ray& scattered, float& pdf) const {
+		return false;
+	}
+	virtual float GetScatteringPDF(const Ray& r_in, const HitRecord& rec, const Ray& scattered) const {
+		return 0.0f;
+	}
+	virtual Vec3  Emitted(const Ray& r_in, const HitRecord& rec) const {
 		return Vec3(0, 0, 0);
 	}
 };
@@ -12,7 +17,7 @@ Vec3 GetRndmVecInUnitSphere() {
 	Vec3 p;
 	do {
 		p = 2.0 * Vec3(GetRandom01() - 0.5, GetRandom01() - 0.5, GetRandom01() - 0.5);
-	} while (p.squared_length() >= 1.0);
+	} while (p.GetSquaredLength() >= 1.0);
 	return p;
 }
 Vec3 Reflect(const Vec3& v, const Vec3& n) {

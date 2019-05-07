@@ -105,6 +105,45 @@
     <ClInclude Include="xy_rect.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="xz_rect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="yz_rect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="flip_normals.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="translate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rotate_y.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_medium.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="isotropic.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="onb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cosine_pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hitable_pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mixture_pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

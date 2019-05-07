@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include<iostream>
 constexpr auto M_PI = 3.14159265358979323846f;
-constexpr auto FLOAT_EPSILON = 0.000001f;
+constexpr auto FLOAT_EPSILON = 0.0001f;
 
 
 class Vec3 {
@@ -68,7 +68,7 @@ public:
 	inline float GetLength() const {
 		return sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]);
 	}
-	inline float squared_length() const {
+	inline float GetSquaredLength() const {
 		return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
 	}
 	inline void normalize() {
@@ -151,3 +151,27 @@ void GetSphereUV(const Vec3& p, float& u, float& v) {
 	u = 1 - (phi + M_PI) / (2 * M_PI);
 	v = (theta + M_PI / 2) / M_PI;
 }
+
+inline Vec3 GetRandomCosineDirection() {
+	float r1 = GetRandom01();
+	float r2 = GetRandom01();
+	float z = sqrt(1 - r2);
+	float phi = 2 * M_PI * r1;
+	float x = cos(phi) * sqrt(r2);
+	float y = sin(phi) * sqrt(r2);
+	/* 
+		p(directions) = cos(theta) / Pi.
+		r2 = INTEGRAL_0^theta 2*Pi*(cos(t)/Pi)*sin(t) = 1-cos^2(theta)
+		So,
+		cos(theta) = sqrt(1-r2)	*/
+	return Vec3(x, y, z);
+}
+
+inline Vec3 DeNAN(const Vec3& c) {
+	Vec3 temp = c;
+	if (!(temp[0] == temp[0])) temp[0] = 0;
+	if (!(temp[1] == temp[1])) temp[1] = 0;
+	if (!(temp[2] == temp[2])) temp[2] = 0;
+	return temp;
+}
+

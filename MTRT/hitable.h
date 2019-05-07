@@ -16,6 +16,8 @@ class Hitable {
 public:
 	virtual bool Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const = 0;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const = 0;
+	virtual float GetPDFValue(const Vec3& origin, const Vec3& dir) const { return 0.0; }
+	virtual Vec3 GetRandomDir(const Vec3& origin) { return Vec3(1, 0, 0); }
 
 	static bool CompareBoxX(Hitable* a, Hitable* b);
 	static bool CompareBoxY(Hitable* a, Hitable* b);

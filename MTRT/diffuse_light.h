@@ -8,8 +8,11 @@ public:
 	virtual bool Scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenunation, Ray& scattered) const {
 		return false;
 	}
-	virtual Vec3 Emitted(float u, float v, const Vec3& p) const {
-		return emit_texture_->Sample(u,v,p) * inensity_;
+	virtual Vec3 Emitted(const Ray& r_in, const HitRecord& rec) const {
+		if (Dot(rec.normal, r_in.GetDirection()) < 0.0)
+			return emit_texture_->Sample(rec.u, rec.v, rec.pos) * inensity_;
+		else
+			return Vec3(0, 0, 0);
 	}
 	Texture* emit_texture_;
 	float inensity_;
