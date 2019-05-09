@@ -60,9 +60,9 @@ public:
 
 void RayTracer::DrawPicture() {
 	bool preview = 0;
-	int nx = preview ? 20 : 800;
-	int ny = preview ? 20 : 800;
-	int ns = preview ? 10 : 2000;
+	int nx = preview ? 200 : 800;
+	int ny = preview ? 200 : 800;
+	int ns = preview ? 100 : 2000;
 	int start_time = time(0);
 	std::vector<std::shared_ptr<Hitable>> obj_list, important_list;
 
