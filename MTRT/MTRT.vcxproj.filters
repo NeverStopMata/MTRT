@@ -144,6 +144,12 @@
     <ClInclude Include="mixture_pdf.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ray_tracer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="uniform_pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

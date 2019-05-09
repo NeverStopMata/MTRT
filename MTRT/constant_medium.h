@@ -4,16 +4,16 @@
 #include "isotropic.h"
 class ConstantMedium :public Hitable {
 public:
-	ConstantMedium(Hitable * boundary, float density, Texture* albedo) :boundary_(boundary), density_(density) {
-		phase_func_ = new Isotropic(albedo);
+	ConstantMedium(std::shared_ptr<Hitable> boundary, float density, std::shared_ptr<Material> mat_ptr) :boundary_(boundary), density_(density), phase_func_(mat_ptr){}
+	~ConstantMedium() {
 	}
 	virtual bool Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const {
 		return boundary_->GetBoundingBox(t0, t1, box);
 	}
-	Hitable* boundary_;
+	std::shared_ptr<Hitable> boundary_;
 	float density_;
-	Material* phase_func_;
+	std::shared_ptr<Material> phase_func_;
 };
 
 bool ConstantMedium::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const {

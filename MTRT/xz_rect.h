@@ -4,7 +4,9 @@
 class XZRect : public Hitable {
 public:
 	XZRect() {}
-	XZRect(float x0, float x1, float z0, float z1, float k, Material * mat_ptr) :x0_(x0), x1_(x1), z0_(z0), z1_(z1), k_(k), mat_ptr_(mat_ptr) {};
+	~XZRect() {
+	}
+	XZRect(float x0, float x1, float z0, float z1, float k, std::shared_ptr<Material> mat_ptr) :x0_(x0), x1_(x1), z0_(z0), z1_(z1), k_(k), mat_ptr_(mat_ptr) {};
 	virtual bool Hit(const Ray& r, float t0, float t1, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const {
 		box = Aabb(Vec3(x0_, k_ - FLOAT_EPSILON, z0_), Vec3(x1_, k_ + FLOAT_EPSILON, z1_));
@@ -16,17 +18,19 @@ public:
 			float area = (x1_ - x0_)*(z1_ - z0_);
 			float dist_squared = rec.t * rec.t * dir.GetSquaredLength();
 			float cosine = fabs(Dot(dir, rec.normal) / dir.GetLength());
+			if (cosine < FLOAT_EPSILON)
+				return 0;
 			return dist_squared / (cosine * area);
 		}
 		else
 			return 0;
 	}
-	virtual Vec3 GetRandomDir(const Vec3& origin) {
+	virtual Vec3 GetRandomDirToSelf(const Vec3& origin) const{
 		Vec3 random_pos = Vec3(x0_ + GetRandom01()*(x1_ - x0_), k_, z0_ + GetRandom01()*(z1_ - z0_));
 		return random_pos - origin;
 	}
 
-	Material* mat_ptr_;
+	std::shared_ptr<Material> mat_ptr_;
 	float x0_, x1_, z0_, z1_, k_;
 };
 

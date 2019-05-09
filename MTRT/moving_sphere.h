@@ -3,7 +3,9 @@
 class MovingSphere : public Hitable {
 public:
 	MovingSphere() {}
-	MovingSphere(Vec3 cen0,Vec3 cen1,float t0,float t1, float r, Material* mat):
+	~MovingSphere() {
+	}
+	MovingSphere(Vec3 cen0,Vec3 cen1,float t0,float t1, float r, std::shared_ptr<Material> mat):
 		center0_(cen0), center1_(cen1), time0_(t0), time1_(t1), radius_(r), mat_ptr_(mat) {};
 	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb & box) const;
@@ -12,7 +14,7 @@ public:
 	Vec3 center0_,center1_;
 	float time0_, time1_;
 	float radius_;
-	Material* mat_ptr_;
+	std::shared_ptr<Material> mat_ptr_;
 };
 
 Vec3 MovingSphere::GetCenter(float time) const {

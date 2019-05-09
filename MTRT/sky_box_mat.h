@@ -4,6 +4,9 @@
 class SkyBoxMat : public Material {
 public:
 	SkyBoxMat(Texture const * a) : emit_(a) {}
+	~SkyBoxMat() {
+		delete emit_;
+	}
 	virtual bool Scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenunation, Ray& scattered) const {
 		return false;
 	}

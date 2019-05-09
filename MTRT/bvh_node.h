@@ -5,17 +5,17 @@
 class BVHNode : public Hitable {
 public:
 	BVHNode() {}
-	BVHNode(std::vector<Hitable *>::iterator hitable_ary_begin, std::vector<Hitable *>::iterator hitable_ary_end, float time0, float time1);
+	BVHNode(std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_begin, std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_end, float time0, float time1);
 	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const;
-	Hitable* left_;
-	Hitable* right_;
+	std::shared_ptr<Hitable> left_;
+	std::shared_ptr<Hitable> right_;
 	Aabb box_;
 private:
-	Vec3 GetRootMeanSquareInNodes(std::vector<Hitable *>::iterator hitable_ary_begin, std::vector<Hitable *>::iterator hitable_ary_end, float time0, float time1);
+	Vec3 GetRootMeanSquareInNodes(std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_begin, std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_end, float time0, float time1);
 
 };
-BVHNode::BVHNode(std::vector<Hitable *>::iterator hitable_ary_begin, std::vector<Hitable *>::iterator hitable_ary_end, float time0  = 0, float time1 = 0)
+BVHNode::BVHNode(std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_begin, std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_end, float time0  = 0, float time1 = 0)
 {
 	Vec3 root_mean_squares = GetRootMeanSquareInNodes(hitable_ary_begin, hitable_ary_end, time0, time1);
 	float max_root_mean_square = std::fmaxf(std::fmaxf(root_mean_squares.x(), root_mean_squares.y()), root_mean_squares.z());
@@ -33,8 +33,8 @@ BVHNode::BVHNode(std::vector<Hitable *>::iterator hitable_ary_begin, std::vector
 		right_ = *(hitable_ary_begin + 1);
 	}
 	else {
-		left_ = new BVHNode(hitable_ary_begin, hitable_ary_begin + n / 2, time0, time1);
-		right_ = new BVHNode(hitable_ary_begin + n / 2, hitable_ary_end, time0, time1);
+		left_ = std::make_shared<BVHNode>(hitable_ary_begin, hitable_ary_begin + n / 2, time0, time1);//todo
+		right_ = std::make_shared<BVHNode>(hitable_ary_begin + n / 2, hitable_ary_end, time0, time1);
 	}
 	Aabb box_left, box_right;
 	if (!left_->GetBoundingBox(time0, time1, box_left) || !right_->GetBoundingBox(time0, time1, box_right))
@@ -71,7 +71,7 @@ bool BVHNode::Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const {
 }
 
 
-Vec3 BVHNode::GetRootMeanSquareInNodes(std::vector<Hitable *>::iterator hitable_ary_begin, std::vector<Hitable *>::iterator hitable_ary_end, float time0, float time1) {
+Vec3 BVHNode::GetRootMeanSquareInNodes(std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_begin, std::vector<std::shared_ptr<Hitable>>::iterator hitable_ary_end, float time0, float time1) {
 	int n = (int)std::distance(hitable_ary_begin, hitable_ary_end);
 	std::vector<Vec3> center_array(n);
 	int cnt = 0;

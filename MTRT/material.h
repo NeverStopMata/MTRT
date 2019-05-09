@@ -1,8 +1,17 @@
 #pragma once
 #include "hitable.h"
+#include "pdf.h"
+struct ScatterRecord
+{
+	Ray specular_ray;
+	bool is_specular;
+	Vec3 attenuation;
+	std::shared_ptr<PDF> pdf_ptr;
+};
 class Material {
 public:
-	virtual bool Scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenunation, Ray& scattered, float& pdf) const {
+	virtual ~Material() {}
+	virtual bool Scatter(const Ray& r_in, const HitRecord& hrec, ScatterRecord& srec) const {
 		return false;
 	}
 	virtual float GetScatteringPDF(const Ray& r_in, const HitRecord& rec, const Ray& scattered) const {

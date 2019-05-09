@@ -163,7 +163,8 @@ inline Vec3 GetRandomCosineDirection() {
 		p(directions) = cos(theta) / Pi.
 		r2 = INTEGRAL_0^theta 2*Pi*(cos(t)/Pi)*sin(t) = 1-cos^2(theta)
 		So,
-		cos(theta) = sqrt(1-r2)	*/
+		cos(theta) = sqrt(1-r2)
+	*/
 	return Vec3(x, y, z);
 }
 
@@ -175,3 +176,23 @@ inline Vec3 DeNAN(const Vec3& c) {
 	return temp;
 }
 
+inline Vec3 GetRandomDirToSphere(float radius, float dist_squared) {
+	float r1 = GetRandom01();
+	float r2 = GetRandom01();
+	float z = 1 + r2 * (sqrt(1 - radius * radius / dist_squared) - 1);
+	float phi = 2 * M_PI * r1;
+	float sqrt_tmp_one_minus_z_2 = z * z;
+	float x = cos(phi) * sqrt_tmp_one_minus_z_2;
+	float y = sin(phi) * sqrt_tmp_one_minus_z_2;
+	return Vec3(x, y, z);
+}
+
+inline Vec3 GetRandomDirOnSphere(){
+	float r1 = GetRandom01();
+	float r2 = GetRandom01();
+	float phi = 2 * M_PI * r1;
+	float z = 1 - 2 * r2;
+	float x = cos(phi) * sqrt(1 - z * z);
+	float y = sin(phi) * sqrt(1 - z * z);
+	return Vec3(x, y, z);
+}

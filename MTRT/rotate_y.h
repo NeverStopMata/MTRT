@@ -3,6 +3,9 @@
 class RotateY :public Hitable {
 public:
 	RotateY(Hitable* hitable_ptr, float angle);
+	~RotateY() {
+		delete hitable_ptr_;
+	}
 	virtual bool Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const {
 		box = bbox_;

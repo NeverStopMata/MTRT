@@ -4,12 +4,15 @@
 class SkyBox : public Hitable {
 public:
 	SkyBox() {}
-	SkyBox(Vec3 cen, float r, Material* mat) :center_(cen), radius_(r), mat_ptr_(mat) {};
+	~SkyBox() {
+
+	}
+	SkyBox(Vec3 cen, float r, std::shared_ptr<Material> mat) :center_(cen), radius_(r), mat_ptr_(mat) {};
 	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb & box) const;
 	Vec3 center_;
 	float radius_;
-	Material* mat_ptr_;
+	std::shared_ptr<Material> mat_ptr_;
 };
 
 bool SkyBox::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec) const {

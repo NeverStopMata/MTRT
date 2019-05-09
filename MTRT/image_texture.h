@@ -5,6 +5,9 @@
 class ImageTexture : public Texture {
 public:
 	ImageTexture() {}
+	~ImageTexture() {
+		delete data_;
+	};
 	ImageTexture(unsigned char *pixels, int nx, int ny) :data_(pixels),nx_(nx),ny_(ny){}
 	virtual Vec3 Sample(float u, float v, const Vec3& p) const;
 	unsigned char *data_;

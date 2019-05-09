@@ -2,7 +2,7 @@
 #include "pdf.h"
 class MixturePDF :public PDF {
 public:
-	MixturePDF(PDF * p0, PDF* p1) { pdfs_[0] = p0; pdfs_[1] = p1; }
+	MixturePDF(std::shared_ptr<PDF> p0, std::shared_ptr<PDF> p1) { pdfs_[0] = p0; pdfs_[1] = p1; }
 	virtual float GetValue(const Vec3& dir) const {
 		return 0.5 * pdfs_[0]->GetValue(dir) + 0.5 * pdfs_[1]->GetValue(dir);//strange
 	}
@@ -12,5 +12,5 @@ public:
 		else
 			return pdfs_[1]->Generate();
 	}
-	PDF* pdfs_[2];
+	std::shared_ptr<PDF> pdfs_[2];
 };

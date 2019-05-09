@@ -84,7 +84,9 @@ enum DenominatorType
 class Triangle :public Hitable {
 public:
 	Triangle() {}
-	Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2, Material* mat_ptr) :v0_(v0), v1_(v1), v2_(v2), mat_ptr_(mat_ptr) {
+	~Triangle(){
+	}
+	Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2, std::shared_ptr<Material> mat_ptr) :v0_(v0), v1_(v1), v2_(v2), mat_ptr_(mat_ptr) {
 		try {
 			vec_p0p1_ = v1_.pos() - v0_.pos();
 			vec_p0p2_ = v2_.pos() - v0_.pos();
@@ -122,7 +124,7 @@ public:
 	Vec3 vec_p0p2_;
 	float denominator_;
 	DenominatorType denominator_type_;
-	Material* mat_ptr_;
+	std::shared_ptr<Material> mat_ptr_;
 };
 
 bool Triangle::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec)const {

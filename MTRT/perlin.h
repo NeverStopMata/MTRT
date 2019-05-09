@@ -51,6 +51,7 @@ public:
 	static int* perm_x;
 	static int* perm_y;
 	static int* perm_z;
+	static void ReleaseBuffer();
 };
 
 static Vec3* GenerateRandomVecArray() {
@@ -75,6 +76,13 @@ static int* GeneratePerlinPerm() {
 		p[i] = i;
 	Permute(p, 256);
 	return p;
+}
+
+void Perlin::ReleaseBuffer() {
+	delete[] Perlin::random_vec_arry_;
+	delete[] Perlin::perm_x;
+	delete[] Perlin::perm_y;
+	delete[] Perlin::perm_z;
 }
 
 Vec3* Perlin::random_vec_arry_ = GenerateRandomVecArray();

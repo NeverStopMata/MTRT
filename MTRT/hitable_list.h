@@ -7,10 +7,16 @@
 class Hitable_list : public Hitable {
 public:
 	Hitable_list() {}
-	Hitable_list(const std::vector<Hitable*>& list):list_(list) {}
+	~Hitable_list() {
+		list_.clear();
+		list_.shrink_to_fit();
+	}
+	Hitable_list(const std::vector<std::shared_ptr<Hitable>>& list):list_(list) {}
 	virtual bool Hit(const Ray& r, float tmin, float tmax, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const;
-	std::vector<Hitable*> list_;
+	virtual float GetPDFValue(const Vec3& origin, const Vec3& dir) const;
+	virtual Vec3 GetRandomDirToSelf(const Vec3& origin) const;
+	std::vector<std::shared_ptr<Hitable>> list_;
 };
 bool Hitable_list::Hit(const Ray& r, float t_min, float t_max, HitRecord& rec)const {
 	HitRecord temp_rec;
@@ -41,4 +47,17 @@ bool Hitable_list::GetBoundingBox(float t0, float t1, Aabb& box) const {
 			return false;
 	}
 	return true;
+}
+
+float Hitable_list::GetPDFValue(const Vec3& origin, const Vec3& dir) const {
+	float weight = 1. / list_.size();
+	float sum = 0;
+	for (auto itor = list_.begin(); itor != list_.end(); itor++) {
+		sum += weight * (*itor)->GetPDFValue(origin, dir);
+	}
+	return sum;
+}
+Vec3 Hitable_list::GetRandomDirToSelf(const Vec3& origin) const {
+	int idx = std::min(int(GetRandom01()  * list_.size()), int(list_.size() - 1));
+	return list_[idx]->GetRandomDirToSelf(origin);
 }

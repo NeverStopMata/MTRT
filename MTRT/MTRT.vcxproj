@@ -178,6 +178,7 @@
     <ClInclude Include="pdf.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="ray_tracer.h" />
     <ClInclude Include="rotate_y.h" />
     <ClInclude Include="scene_creator.h" />
     <ClInclude Include="sky_box.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="translate.h" />
     <ClInclude Include="triangle.h" />
     <ClInclude Include="triangle_mesh.h" />
+    <ClInclude Include="uniform_pdf.h" />
     <ClInclude Include="vec3.h" />
     <ClInclude Include="xy_rect.h" />
     <ClInclude Include="xz_rect.h" />

@@ -4,13 +4,15 @@
 class XYRect: public Hitable {
 public:
 	XYRect() {}
-	XYRect(float x0, float x1, float y0, float y1, float k, Material * mat_ptr) :x0_(x0), x1_(x1), y0_(y0), y1_(y1),k_(k),mat_ptr_(mat_ptr) {};
+	~XYRect() {
+	}
+	XYRect(float x0, float x1, float y0, float y1, float k, std::shared_ptr<Material> mat_ptr) :x0_(x0), x1_(x1), y0_(y0), y1_(y1),k_(k),mat_ptr_(mat_ptr) {};
 	virtual bool Hit(const Ray& r, float t0, float t1, HitRecord& rec) const;
 	virtual bool GetBoundingBox(float t0, float t1, Aabb& box) const {
 		box = Aabb(Vec3(x0_, y0_, k_ - FLOAT_EPSILON), Vec3(x1_, y1_, k_ + FLOAT_EPSILON));
 		return true;
 	}
-	Material* mat_ptr_;
+	std::shared_ptr<Material> mat_ptr_;
 	float x0_,x1_,y0_,y1_,k_;
 };
 
